@@ -22,7 +22,7 @@ private let defaultAlphaValueOpaque: CGFloat = 1.0
 private let defaultAlphaValueTransparent: CGFloat = 0.0
 private let defaultAlphaValueSemiTransparent: CGFloat = 0.7
 
-@objc public protocol KolodaViewDataSource: class {
+public protocol KolodaViewDataSource: class {
     
     func kolodaNumberOfCards(_ koloda: KolodaView) -> Int
     func kolodaSpeedThatCardShouldDrag(_ koloda: KolodaView) -> DragSpeed
@@ -38,7 +38,7 @@ public extension KolodaViewDataSource {
     
 }
 
-@objc public protocol KolodaViewDelegate: class {
+public protocol KolodaViewDelegate: class {
     
     // Type of elements in the array: SwipeResultDirection
     func koloda(_ koloda: KolodaView, allowedDirectionsForIndex index: Int) -> NSArray

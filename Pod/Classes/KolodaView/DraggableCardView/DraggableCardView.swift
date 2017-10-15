@@ -9,13 +9,6 @@
 import UIKit
 import pop
 
-<<<<<<< HEAD
-@objc public enum DragSpeed: TimeInterval {
-    case slow = 2.0
-    case moderate = 1.5
-    case `default` = 0.8
-    case fast = 0.4
-=======
 @objc public enum DragSpeed: Int {
    case slow
    case moderate
@@ -30,7 +23,6 @@ import pop
       case .fast: return 0.4
       }
    }
->>>>>>> Expose enums and datasource, delegate to obj-c.
 }
 
 protocol DraggableCardDelegate: class {
