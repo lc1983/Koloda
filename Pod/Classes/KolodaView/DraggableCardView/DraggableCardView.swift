@@ -9,11 +9,28 @@
 import UIKit
 import pop
 
+<<<<<<< HEAD
 @objc public enum DragSpeed: TimeInterval {
     case slow = 2.0
     case moderate = 1.5
     case `default` = 0.8
     case fast = 0.4
+=======
+@objc public enum DragSpeed: Int {
+   case slow
+   case moderate
+   case `default`
+   case fast
+   
+   func value() -> TimeInterval {
+      switch self {
+      case .slow: return 2.0
+      case .moderate: return 1.5
+      case .`default`: return 0.8
+      case .fast: return 0.4
+      }
+   }
+>>>>>>> Expose enums and datasource, delegate to obj-c.
 }
 
 protocol DraggableCardDelegate: class {
@@ -23,8 +40,9 @@ protocol DraggableCardDelegate: class {
     func card(_ card: DraggableCardView, shouldSwipeIn direction: SwipeResultDirection) -> Bool
     func card(cardWasReset card: DraggableCardView)
     func card(cardWasTapped card: DraggableCardView)
-    func card(cardSwipeThresholdRatioMargin card: DraggableCardView) -> CGFloat?
-    func card(cardAllowedDirections card: DraggableCardView) -> [SwipeResultDirection]
+    func card(cardSwipeThresholdRatioMargin card: DraggableCardView) -> NSNumber?
+    // Type of elements in the array: SwipeResultDirection
+    func card(cardAllowedDirections card: DraggableCardView) -> NSArray
     func card(cardShouldDrag card: DraggableCardView) -> Bool
     func card(cardSwipeSpeed card: DraggableCardView) -> DragSpeed
 }
@@ -41,7 +59,7 @@ private let cardResetAnimationSpringBounciness: CGFloat = 10.0
 private let cardResetAnimationSpringSpeed: CGFloat = 20.0
 private let cardResetAnimationKey = "resetPositionAnimation"
 private let cardResetAnimationDuration: TimeInterval = 0.2
-internal var cardSwipeActionAnimationDuration: TimeInterval = DragSpeed.default.rawValue
+internal var cardSwipeActionAnimationDuration: TimeInterval = DragSpeed.default.value()
 
 public class DraggableCardView: UIView, UIGestureRecognizerDelegate {
 
@@ -86,7 +104,7 @@ public class DraggableCardView: UIView, UIGestureRecognizerDelegate {
     override public var frame: CGRect {
         didSet {
             if let ratio = delegate?.card(cardSwipeThresholdRatioMargin: self) , ratio != 0 {
-                swipePercentageMargin = ratio
+                swipePercentageMargin = CGFloat(ratio.floatValue)
             } else {
                 swipePercentageMargin = 1.0
             }
@@ -108,7 +126,7 @@ public class DraggableCardView: UIView, UIGestureRecognizerDelegate {
         addGestureRecognizer(tapGestureRecognizer)
 
         if let delegate = delegate {
-            cardSwipeActionAnimationDuration = delegate.card(cardSwipeSpeed: self).rawValue
+            cardSwipeActionAnimationDuration = delegate.card(cardSwipeSpeed: self).value()
         }
     }
     
@@ -214,7 +232,7 @@ public class DraggableCardView: UIView, UIGestureRecognizerDelegate {
     
     func configureSwipeSpeed() {
         if let delegate = delegate {
-            cardSwipeActionAnimationDuration = delegate.card(cardSwipeSpeed: self).rawValue
+            cardSwipeActionAnimationDuration = delegate.card(cardSwipeSpeed: self).value()
         }
     }
     
@@ -284,17 +302,18 @@ public class DraggableCardView: UIView, UIGestureRecognizerDelegate {
     
     //MARK: Private
     
-    private var directions: [SwipeResultDirection] {
-        return delegate?.card(cardAllowedDirections: self) ?? [.left, .right]
+    private var directions: NSArray {
+        return delegate?.card(cardAllowedDirections: self) ?? [SwipeResultDirection.left, SwipeResultDirection.right]
     }
     
     private var dragDirection: SwipeResultDirection? {
         //find closest direction
         let normalizedDragPoint = dragDistance.normalizedDistanceForSize(bounds.size)
         return directions.reduce((distance:CGFloat.infinity, direction:nil)) { closest, direction in
-            let distance = direction.point.distanceTo(normalizedDragPoint)
+            let swipeResultDirection = direction as! SwipeResultDirection
+            let distance = swipeResultDirection.point.distanceTo(normalizedDragPoint)
             if distance < closest.distance {
-                return (distance, direction)
+                return (distance, swipeResultDirection)
             }
             return closest
         }.direction

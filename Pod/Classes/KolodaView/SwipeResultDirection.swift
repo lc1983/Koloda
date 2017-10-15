@@ -9,6 +9,7 @@
 import Foundation
 import CoreGraphics
 
+<<<<<<< HEAD
 @objc public enum SwipeResultDirection: String {
     
     case left
@@ -19,6 +20,31 @@ import CoreGraphics
     case topRight
     case bottomLeft
     case bottomRight
+=======
+@objc public enum SwipeResultDirection: Int {
+   
+   case left
+   case right
+   case up
+   case down
+   case topLeft
+   case topRight
+   case bottomLeft
+   case bottomRight
+   
+   func name() -> String {
+      switch self {
+      case .left: return "left"
+      case .right: return "right"
+      case .up: return "up"
+      case .down: return "down"
+      case .topLeft: return "topLeft"
+      case .topRight: return "topRight"
+      case .bottomLeft: return "bottomLeft"
+      case .bottomRight: return "bottomRight"
+      }
+   }
+>>>>>>> Expose enums and datasource, delegate to obj-c.
 }
 
 extension SwipeResultDirection {

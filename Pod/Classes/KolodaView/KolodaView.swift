@@ -40,7 +40,8 @@ public extension KolodaViewDataSource {
 
 @objc public protocol KolodaViewDelegate: class {
     
-    func koloda(_ koloda: KolodaView, allowedDirectionsForIndex index: Int) -> [SwipeResultDirection]
+    // Type of elements in the array: SwipeResultDirection
+    func koloda(_ koloda: KolodaView, allowedDirectionsForIndex index: Int) -> NSArray
     func koloda(_ koloda: KolodaView, shouldSwipeCardAt index: Int, in direction: SwipeResultDirection) -> Bool
     func koloda(_ koloda: KolodaView, didSwipeCardAt index: Int, in direction: SwipeResultDirection)
     func kolodaDidRunOutOfCards(_ koloda: KolodaView)
@@ -50,7 +51,7 @@ public extension KolodaViewDataSource {
     func kolodaShouldTransparentizeNextCard(_ koloda: KolodaView) -> Bool
     func koloda(_ koloda: KolodaView, draggedCardWithPercentage finishPercentage: CGFloat, in direction: SwipeResultDirection)
     func kolodaDidResetCard(_ koloda: KolodaView)
-    func kolodaSwipeThresholdRatioMargin(_ koloda: KolodaView) -> CGFloat?
+    func kolodaSwipeThresholdRatioMargin(_ koloda: KolodaView) ->  NSNumber?
     func koloda(_ koloda: KolodaView, didShowCardAt index: Int)
     func koloda(_ koloda: KolodaView, shouldDragCardAt index: Int ) -> Bool
     
@@ -59,7 +60,7 @@ public extension KolodaViewDataSource {
 public extension KolodaViewDelegate {
     
     func koloda(_ koloda: KolodaView, shouldSwipeCardAt index: Int, in direction: SwipeResultDirection) -> Bool { return true }
-    func koloda(_ koloda: KolodaView, allowedDirectionsForIndex index: Int) -> [SwipeResultDirection] { return [.left, .right] }
+    func koloda(_ koloda: KolodaView, allowedDirectionsForIndex index: Int) -> NSArray { return [SwipeResultDirection.left, SwipeResultDirection.right] }
     func koloda(_ koloda: KolodaView, didSwipeCardAt index: Int, in direction: SwipeResultDirection) {}
     func kolodaDidRunOutOfCards(_ koloda: KolodaView) {}
     func koloda(_ koloda: KolodaView, didSelectCardAt index: Int) {}
@@ -68,7 +69,7 @@ public extension KolodaViewDelegate {
     func kolodaShouldTransparentizeNextCard(_ koloda: KolodaView) -> Bool { return true }
     func koloda(_ koloda: KolodaView, draggedCardWithPercentage finishPercentage: CGFloat, in direction: SwipeResultDirection) {}
     func kolodaDidResetCard(_ koloda: KolodaView) {}
-    func kolodaSwipeThresholdRatioMargin(_ koloda: KolodaView) -> CGFloat? { return nil}
+    func kolodaSwipeThresholdRatioMargin(_ koloda: KolodaView) -> NSNumber? { return nil}
     func koloda(_ koloda: KolodaView, didShowCardAt index: Int) {}
     func koloda(_ koloda: KolodaView, shouldDragCardAt index: Int ) -> Bool { return true }
     
@@ -287,9 +288,9 @@ open class KolodaView: UIView, DraggableCardDelegate {
         return delegate?.koloda(self, shouldSwipeCardAt: self.currentCardIndex, in: direction) ?? true
     }
     
-    func card(cardAllowedDirections card: DraggableCardView) -> [SwipeResultDirection] {
+    func card(cardAllowedDirections card: DraggableCardView) -> NSArray {
         let index = currentCardIndex + visibleCards.index(of: card)!
-        return delegate?.koloda(self, allowedDirectionsForIndex: index) ?? [.left, .right]
+        return delegate?.koloda(self, allowedDirectionsForIndex: index) ?? [SwipeResultDirection.left, SwipeResultDirection.right]
     }
     
     func card(_ card: DraggableCardView, wasSwipedIn direction: SwipeResultDirection) {
@@ -327,7 +328,7 @@ open class KolodaView: UIView, DraggableCardDelegate {
         delegate?.koloda(self, didSelectCardAt: index)
     }
     
-    func card(cardSwipeThresholdRatioMargin card: DraggableCardView) -> CGFloat? {
+    func card(cardSwipeThresholdRatioMargin card: DraggableCardView) -> NSNumber? {
         return delegate?.kolodaSwipeThresholdRatioMargin(self)
     }
     
