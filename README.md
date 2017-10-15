@@ -1,6 +1,8 @@
 KolodaView [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) ![Swift 4.0.x](https://img.shields.io/badge/Swift-4.0.x-orange.svg)
 --------------
 
+Forked from KolodaView and the purpose is to keep the Obj-C support up to date.
+
 [![Yalantis](https://raw.githubusercontent.com/Yalantis/PullToMakeSoup/master/PullToMakeSoupDemo/Resouces/badge_dark.png)](https://Yalantis.com/?utm_source=github)
 
 Check this [article on our blog](https://yalantis.com/blog/how-we-built-tinder-like-koloda-in-swift/).
