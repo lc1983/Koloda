@@ -22,12 +22,12 @@ private let defaultAlphaValueOpaque: CGFloat = 1.0
 private let defaultAlphaValueTransparent: CGFloat = 0.0
 private let defaultAlphaValueSemiTransparent: CGFloat = 0.7
 
-public protocol KolodaViewDataSource: class {
-    
-    func kolodaNumberOfCards(_ koloda: KolodaView) -> Int
-    func kolodaSpeedThatCardShouldDrag(_ koloda: KolodaView) -> DragSpeed
-    func koloda(_ koloda: KolodaView, viewForCardAt index: Int) -> UIView
-    func koloda(_ koloda: KolodaView, viewForCardOverlayAt index: Int) -> OverlayView?
+@objc public protocol KolodaViewDataSource: class {
+   
+   func kolodaNumberOfCards(_ koloda: KolodaView) -> Int
+   func kolodaSpeedThatCardShouldDrag(_ koloda: KolodaView) -> DragSpeed
+   func koloda(_ koloda: KolodaView, viewForCardAt index: Int) -> UIView
+   func koloda(_ koloda: KolodaView, viewForCardOverlayAt index: Int) -> OverlayView?
 }
 
 public extension KolodaViewDataSource {
@@ -38,23 +38,23 @@ public extension KolodaViewDataSource {
     
 }
 
-public protocol KolodaViewDelegate: class {
-    
-    // Type of elements in the array: SwipeResultDirection
-    func koloda(_ koloda: KolodaView, allowedDirectionsForIndex index: Int) -> NSArray
-    func koloda(_ koloda: KolodaView, shouldSwipeCardAt index: Int, in direction: SwipeResultDirection) -> Bool
-    func koloda(_ koloda: KolodaView, didSwipeCardAt index: Int, in direction: SwipeResultDirection)
-    func kolodaDidRunOutOfCards(_ koloda: KolodaView)
-    func koloda(_ koloda: KolodaView, didSelectCardAt index: Int)
-    func kolodaShouldApplyAppearAnimation(_ koloda: KolodaView) -> Bool
-    func kolodaShouldMoveBackgroundCard(_ koloda: KolodaView) -> Bool
-    func kolodaShouldTransparentizeNextCard(_ koloda: KolodaView) -> Bool
-    func koloda(_ koloda: KolodaView, draggedCardWithPercentage finishPercentage: CGFloat, in direction: SwipeResultDirection)
-    func kolodaDidResetCard(_ koloda: KolodaView)
-    func kolodaSwipeThresholdRatioMargin(_ koloda: KolodaView) ->  NSNumber?
-    func koloda(_ koloda: KolodaView, didShowCardAt index: Int)
-    func koloda(_ koloda: KolodaView, shouldDragCardAt index: Int ) -> Bool
-    
+@objc public protocol KolodaViewDelegate: class {
+   
+   // Type of elements in the array: SwipeResultDirection
+   func koloda(_ koloda: KolodaView, allowedDirectionsForIndex index: Int) -> NSArray
+   func koloda(_ koloda: KolodaView, shouldSwipeCardAt index: Int, in direction: SwipeResultDirection) -> Bool
+   func koloda(_ koloda: KolodaView, didSwipeCardAt index: Int, in direction: SwipeResultDirection)
+   func kolodaDidRunOutOfCards(_ koloda: KolodaView)
+   func koloda(_ koloda: KolodaView, didSelectCardAt index: Int)
+   func kolodaShouldApplyAppearAnimation(_ koloda: KolodaView) -> Bool
+   func kolodaShouldMoveBackgroundCard(_ koloda: KolodaView) -> Bool
+   func kolodaShouldTransparentizeNextCard(_ koloda: KolodaView) -> Bool
+   func koloda(_ koloda: KolodaView, draggedCardWithPercentage finishPercentage: CGFloat, in direction: SwipeResultDirection)
+   func kolodaDidResetCard(_ koloda: KolodaView)
+   func kolodaSwipeThresholdRatioMargin(_ koloda: KolodaView) ->  NSNumber?
+   func koloda(_ koloda: KolodaView, didShowCardAt index: Int)
+   func koloda(_ koloda: KolodaView, shouldDragCardAt index: Int ) -> Bool
+   
 }
 
 public extension KolodaViewDelegate {
