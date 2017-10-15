@@ -9,7 +9,7 @@
 import UIKit
 import pop
 
-public enum DragSpeed: TimeInterval {
+@objc public enum DragSpeed: TimeInterval {
     case slow = 2.0
     case moderate = 1.5
     case `default` = 0.8
